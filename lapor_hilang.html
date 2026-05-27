@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lapor Barang Hilang — LostUPNJatim</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#D3FCD5;--surface:#ffffff;--border:#c2ecc4;
+      --text:#1a0d2e;--muted:#6B6B9E;--accent:#A8E06A;
+      --purple:#2D1F3D;--purple-mid:#6B6B9E;--purple-light:#9B9EC8;
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+
+    header{
+      background:var(--purple);padding:1rem 2rem;
+      display:flex;justify-content:space-between;align-items:center;
+      position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 20px rgba(45,31,61,.3);
+    }
+    .logo{font-size:1.3rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:.5rem;text-decoration:none;}
+    .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;}
+    nav a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:600;padding:.4rem .9rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:#fff;background:rgba(255,255,255,.1);}
+
+    .page-wrap{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem;}
+
+    .page-header{margin-bottom:2rem;}
+    .back-btn{
+      display:inline-flex;align-items:center;gap:.4rem;
+      color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;
+      margin-bottom:1rem;transition:color .2s;
+    }
+    .back-btn:hover{color:var(--purple);}
+
+    .page-header h1{
+      font-size:1.8rem;font-weight:800;color:var(--purple);
+      display:flex;align-items:center;gap:.5rem;
+    }
+    .page-header p{color:var(--muted);font-size:.9rem;margin-top:.4rem;}
+
+    .card{
+      background:var(--surface);border:1.5px solid var(--border);
+      border-radius:20px;padding:2rem;
+      box-shadow:0 4px 20px rgba(45,31,61,.06);
+    }
+
+    .form-group{margin-bottom:1.25rem;}
+
+    label{
+      display:block;font-size:.78rem;font-weight:700;
+      letter-spacing:.06em;text-transform:uppercase;
+      color:var(--purple);margin-bottom:.5rem;
+    }
+
+    input,select,textarea{
+      width:100%;background:var(--bg);
+      border:1.5px solid var(--border);border-radius:10px;
+      color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.9rem;padding:.8rem 1rem;outline:none;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    input:focus,select:focus,textarea:focus{
+      border-color:var(--purple-mid);
+      box-shadow:0 0 0 3px rgba(107,107,158,.12);
+    }
+    input::placeholder,textarea::placeholder{color:var(--muted);}
+    textarea{resize:vertical;min-height:100px;}
+    select{cursor:pointer;}
+
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    @media(max-width:500px){.form-row{grid-template-columns:1fr;}}
+
+    .btn-submit{
+      width:100%;margin-top:.5rem;
+      background:var(--purple);color:#fff;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:1rem;font-weight:700;
+      padding:.9rem;border-radius:12px;border:none;cursor:pointer;
+      transition:all .2s;
+    }
+    .btn-submit:hover{background:#3d2a55;transform:translateY(-1px);}
+
+    .alert-error{
+      background:#fde8e8;border:1.5px solid #f5c6c6;
+      border-radius:12px;padding:1rem;margin-bottom:1.25rem;
+      color:#c0392b;font-size:.88rem;font-weight:600;
+    }
+
+    .tip{
+      background:rgba(168,224,106,.15);
+      border:1px solid rgba(168,224,106,.4);
+      border-radius:10px;padding:.75rem 1rem;
+      font-size:.82rem;color:var(--purple);
+      margin-bottom:1.25rem;line-height:1.6;
+    }
+    .upload-box{
+      border:2px dashed var(--border);border-radius:10px;
+      padding:1.5rem;text-align:center;cursor:pointer;
+      transition:border-color .2s,background .2s;
+      background:var(--bg);
+    }
+    .upload-box:hover{border-color:var(--purple-mid);background:#eafaea;}
+    .upload-icon{font-size:2rem;margin-bottom:.4rem;}
+    .upload-text{font-weight:600;font-size:.88rem;color:var(--purple);}
+    .upload-hint{font-size:.75rem;color:var(--muted);margin-top:.2rem;}
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div>LostUPNJatim</a>
+  <nav>
+    <a href="/">Beranda</a>
+    <a href="/lapor/ketemu">Lapor Ketemu</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <a href="/" class="back-btn">← Kembali</a>
+    <h1>😭 Lapor Barang Hilang</h1>
+    <p>Isi form di bawah dengan detail yang jelas agar barangmu lebih mudah ditemukan.</p>
+  </div>
+
+  <div class="card">
+    {% if message %}
+    <div class="alert-error">❌ {{ message.text }}</div>
+    {% endif %}
+
+    <div class="tip">
+      💡 <strong>Tips:</strong> Semakin detail deskripsi barangmu, semakin besar kemungkinan ditemukan. Pastikan nomor WA aktif!
+    </div>
+
+    <form method="POST" action="/lapor/hilang" enctype="multipart/form-data">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Barang *</label>
+          <input type="text" name="nama_barang" placeholder="Contoh: Dompet kulit hitam" required/>
+        </div>
+        <div class="form-group">
+          <label>Kategori *</label>
+          <select name="kategori" required>
+            <option value="">Pilih kategori...</option>
+            {% for kat in kategori_list %}
+            <option value="{{ kat }}">{{ kat }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Lokasi Terakhir Terlihat *</label>
+        <select name="lokasi" required>
+          <option value="">Pilih lokasi...</option>
+          {% for lok in lokasi_list %}
+          <option value="{{ lok }}">{{ lok }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Deskripsi Barang</label>
+        <textarea name="deskripsi" placeholder="Warna, ciri-ciri khusus, isi barang, dll..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama Kamu *</label>
+          <input type="text" name="nama_pelapor" placeholder="Nama lengkap" required/>
+        </div>
+        <div class="form-group">
+          <label>Nomor WhatsApp *</label>
+          <input type="text" name="kontak_wa" placeholder="Contoh: 08123456789" required/>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Foto Barang (opsional)</label>
+        <div class="upload-box" onclick="document.getElementById('foto').click()">
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Klik untuk upload foto barang</div>
+          <div class="upload-hint">JPG, PNG, maksimal 5MB</div>
+          <input type="file" id="foto" name="foto" accept="image/*" style="display:none"
+                 onchange="previewFoto(this)"/>
+        </div>
+        <img id="preview" src="" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:10px;margin-top:.75rem;"/>
+      </div>
+
+      <button type="submit" class="btn-submit">😭 Kirim Laporan Hilang</button>
+    </form>
+  </div>
+</div>
+
+<script>
+function previewFoto(input) {
+  const preview = document.getElementById('preview');
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+    reader.readAsDataURL(input.files[0]);
+    document.querySelector('.upload-text').textContent = input.files[0].name;
+  }
+}
+</script>
+</body>
+</html>

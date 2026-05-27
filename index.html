@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LostUPNJatim — Barang Hilang & Ketemu UPN Veteran Jawa Timur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#D3FCD5;
+      --surface:#ffffff;
+      --border:#c2ecc4;
+      --text:#1a0d2e;
+      --muted:#6B6B9E;
+      --accent:#A8E06A;
+      --accent-dark:#7ec13a;
+      --purple:#2D1F3D;
+      --purple-mid:#6B6B9E;
+      --purple-light:#9B9EC8;
+      --red:#e05555;
+      --green:#22c55e;
+    }
+
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+
+    /* ── HEADER ── */
+    header{
+      background:var(--purple);
+      padding:.85rem 2rem;
+      display:flex;justify-content:space-between;align-items:center;
+      position:sticky;top:0;z-index:100;
+      box-shadow:0 2px 24px rgba(45,31,61,.4);
+    }
+
+    .logo{font-size:1.15rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:.6rem;text-decoration:none;}
+    .logo img{height:34px;width:auto;object-fit:contain;}
+    .logo-text{letter-spacing:-.3px;}
+
+    nav{display:flex;align-items:center;gap:.4rem;}
+    nav a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:600;padding:.4rem .85rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:#fff;background:rgba(255,255,255,.1);}
+    .btn-nav-hilang{background:var(--accent) !important;color:var(--purple) !important;font-weight:700 !important;}
+    .btn-nav-hilang:hover{background:#bfed80 !important;}
+    .btn-nav-ketemu{background:rgba(255,255,255,.12) !important;color:#fff !important;border:1px solid rgba(255,255,255,.2);}
+    .btn-nav-ketemu:hover{background:rgba(255,255,255,.2) !important;}
+
+    /* ── HERO ── */
+    .hero{
+      background:var(--purple);
+      padding:3.5rem 2rem 6rem;
+      position:relative;overflow:hidden;
+    }
+
+    .hero-inner{
+      max-width:1100px;margin:0 auto;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:3rem;align-items:center;
+    }
+
+    @media(max-width:768px){
+      .hero-inner{grid-template-columns:1fr;text-align:center;}
+      .hero-visual{display:none;}
+    }
+
+    .hero::after{
+      content:'';position:absolute;
+      bottom:-2px;left:0;right:0;height:80px;
+      background:var(--bg);
+      clip-path:ellipse(55% 100% at 50% 100%);
+    }
+
+    .hero-tag{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:rgba(168,224,106,.15);border:1px solid rgba(168,224,106,.3);
+      color:var(--accent);font-size:.75rem;font-weight:700;
+      letter-spacing:.08em;text-transform:uppercase;
+      padding:.3rem .9rem;border-radius:100px;margin-bottom:1.25rem;
+      animation:fadeUp .6s ease both;
+    }
+
+    .hero h1{
+      font-size:clamp(2.2rem,4vw,3.2rem);font-weight:900;
+      color:#fff;line-height:1.1;letter-spacing:-1px;
+      margin-bottom:1rem;
+      animation:fadeUp .7s .1s ease both;
+    }
+
+    .hero h1 .accent{color:var(--accent);}
+
+    .hero-desc{
+      color:rgba(255,255,255,.6);font-size:.95rem;
+      max-width:440px;line-height:1.75;margin-bottom:2rem;
+      animation:fadeUp .7s .2s ease both;
+    }
+
+    .hero-btns{
+      display:flex;gap:.75rem;flex-wrap:wrap;
+      animation:fadeUp .7s .3s ease both;
+    }
+
+    .btn-primary{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:var(--accent);color:var(--purple);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.92rem;font-weight:700;
+      padding:.75rem 1.6rem;border-radius:12px;
+      text-decoration:none;border:none;cursor:pointer;
+      transition:all .25s cubic-bezier(.34,1.56,.64,1);
+      box-shadow:0 4px 15px rgba(168,224,106,.3);
+    }
+    .btn-primary:hover{background:#bfed80;transform:translateY(-3px);box-shadow:0 8px 25px rgba(168,224,106,.4);}
+
+    .btn-ghost{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:rgba(255,255,255,.1);color:#fff;
+      border:1px solid rgba(255,255,255,.25);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.92rem;font-weight:600;
+      padding:.75rem 1.6rem;border-radius:12px;
+      text-decoration:none;
+      transition:all .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .btn-ghost:hover{background:rgba(255,255,255,.2);transform:translateY(-3px);}
+
+    /* Hero visual */
+    .hero-visual{
+      display:flex;justify-content:center;align-items:center;
+      position:relative;animation:fadeUp .7s .2s ease both;
+    }
+
+    .hero-visual-card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:20px;padding:1.5rem;
+      backdrop-filter:blur(10px);
+      width:100%;max-width:320px;
+    }
+
+    .vis-row{
+      display:flex;align-items:center;gap:.75rem;
+      padding:.75rem;background:rgba(255,255,255,.06);
+      border-radius:12px;margin-bottom:.6rem;
+      animation:slideLeft .5s ease both;
+    }
+    .vis-row:nth-child(2){animation-delay:.1s;}
+    .vis-row:nth-child(3){animation-delay:.2s;}
+
+    .vis-icon{
+      width:40px;height:40px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.2rem;flex-shrink:0;
+    }
+    .vis-icon.red{background:rgba(224,85,85,.2);}
+    .vis-icon.green{background:rgba(34,197,94,.2);}
+    .vis-icon.yellow{background:rgba(251,191,36,.2);}
+
+    .vis-info{}
+    .vis-title{font-size:.82rem;font-weight:700;color:#fff;}
+    .vis-sub{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:.1rem;}
+
+    .vis-badge{
+      margin-left:auto;font-size:.65rem;font-weight:700;
+      padding:.2rem .55rem;border-radius:100px;white-space:nowrap;
+    }
+    .vis-badge.dicari{background:rgba(251,191,36,.2);color:#fbbf24;}
+    .vis-badge.ketemu{background:rgba(34,197,94,.2);color:#22c55e;}
+    .vis-badge.baru{background:rgba(168,224,106,.2);color:#A8E06A;}
+
+    /* ── STATS ── */
+    .stats-wrap{
+      max-width:800px;margin:-3rem auto 0;
+      padding:0 2rem;position:relative;z-index:10;
+    }
+
+    .stats{
+      background:var(--surface);border-radius:24px;
+      display:grid;grid-template-columns:repeat(3,1fr);
+      box-shadow:0 12px 40px rgba(45,31,61,.15);
+      border:1px solid var(--border);overflow:hidden;
+    }
+
+    .stat{
+      text-align:center;padding:1.5rem 1rem;
+      position:relative;
+    }
+
+    .stat:not(:last-child)::after{
+      content:'';position:absolute;right:0;top:20%;bottom:20%;
+      width:1px;background:var(--border);
+    }
+
+    .stat-num{font-size:2.2rem;font-weight:900;color:var(--purple);line-height:1;}
+    .stat-num.red{color:var(--red);}
+    .stat-num.green{color:var(--green);}
+    .stat-label{font-size:.75rem;color:var(--muted);font-weight:600;margin-top:.4rem;text-transform:uppercase;letter-spacing:.05em;}
+
+    /* ── SEARCH ── */
+    .search-section{max-width:900px;margin:2.5rem auto 0;padding:0 2rem;}
+
+    .search-card{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:18px;padding:1.25rem;
+      box-shadow:0 4px 20px rgba(45,31,61,.06);
+    }
+
+    .search-label{font-size:.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;}
+
+    .search-row{display:flex;gap:.6rem;flex-wrap:wrap;}
+
+    .search-input{
+      flex:1;min-width:180px;
+      background:var(--bg);border:1.5px solid var(--border);
+      border-radius:10px;color:var(--text);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.88rem;padding:.65rem .9rem;outline:none;
+      transition:border-color .2s,box-shadow .2s;
+    }
+    .search-input:focus{border-color:var(--purple-mid);box-shadow:0 0 0 3px rgba(107,107,158,.1);}
+    select.search-input{cursor:pointer;}
+
+    .btn-search{
+      background:var(--purple);color:#fff;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.85rem;font-weight:700;
+      padding:.65rem 1.25rem;border-radius:10px;
+      border:none;cursor:pointer;transition:all .2s;white-space:nowrap;
+    }
+    .btn-search:hover{background:#3d2a55;}
+
+    .btn-reset{
+      background:transparent;color:var(--muted);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.85rem;font-weight:600;
+      padding:.65rem .9rem;border-radius:10px;
+      border:1.5px solid var(--border);cursor:pointer;
+      text-decoration:none;transition:all .2s;
+      display:inline-flex;align-items:center;
+    }
+    .btn-reset:hover{border-color:var(--purple-mid);color:var(--purple);}
+
+    /* ── LACAK ── */
+    .lacak-section{max-width:900px;margin:1rem auto 0;padding:0 2rem;}
+
+    .lacak-card{
+      background:var(--purple);border-radius:18px;
+      padding:1.5rem;
+      display:grid;grid-template-columns:auto 1fr;
+      gap:1.25rem;align-items:center;
+    }
+
+    @media(max-width:600px){.lacak-card{grid-template-columns:1fr;}}
+
+    .lacak-icon{
+      width:52px;height:52px;border-radius:14px;
+      background:rgba(168,224,106,.15);
+      border:1px solid rgba(168,224,106,.25);
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;flex-shrink:0;
+    }
+
+    .lacak-info h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.2rem;}
+    .lacak-info p{font-size:.78rem;color:rgba(255,255,255,.5);}
+
+    .lacak-form{display:flex;gap:.6rem;margin-top:.75rem;flex-wrap:wrap;}
+
+    .lacak-input{
+      flex:1;min-width:200px;
+      background:rgba(255,255,255,.1);
+      border:1.5px solid rgba(255,255,255,.15);
+      border-radius:10px;color:#fff;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.88rem;padding:.65rem 1rem;outline:none;
+      transition:border-color .2s;
+    }
+    .lacak-input::placeholder{color:rgba(255,255,255,.35);}
+    .lacak-input:focus{border-color:var(--accent);}
+
+    .btn-lacak{
+      background:var(--accent);color:var(--purple);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.88rem;font-weight:700;
+      padding:.65rem 1.25rem;border-radius:10px;
+      border:none;cursor:pointer;transition:all .2s;white-space:nowrap;
+    }
+    .btn-lacak:hover{background:#bfed80;}
+
+    /* ── SECTION ── */
+    .section{max-width:1100px;margin:2.5rem auto;padding:0 2rem;}
+
+    .section-header{
+      display:flex;justify-content:space-between;align-items:center;
+      margin-bottom:1.25rem;
+    }
+
+    .section-title{
+      display:flex;align-items:center;gap:.75rem;
+      font-size:1.15rem;font-weight:800;
+    }
+
+    .section-badge{
+      font-size:.72rem;font-weight:700;
+      padding:.22rem .65rem;border-radius:100px;
+    }
+    .badge-hilang{background:#fde8e8;color:#c0392b;}
+    .badge-ketemu{background:#e8f5e9;color:#1b5e20;}
+
+    .btn-lapor-hilang{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:var(--accent);color:var(--purple);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.8rem;font-weight:700;
+      padding:.45rem 1rem;border-radius:9px;
+      text-decoration:none;transition:all .2s;
+    }
+    .btn-lapor-hilang:hover{background:#bfed80;transform:translateY(-1px);}
+
+    .btn-lapor-ketemu{
+      display:inline-flex;align-items:center;gap:.4rem;
+      background:var(--purple);color:#fff;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.8rem;font-weight:700;
+      padding:.45rem 1rem;border-radius:9px;
+      text-decoration:none;transition:all .2s;
+    }
+    .btn-lapor-ketemu:hover{background:#3d2a55;transform:translateY(-1px);}
+
+    /* ── CARDS ── */
+    .cards-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+      gap:1rem;
+    }
+
+    .card{
+      background:var(--surface);
+      border:1.5px solid var(--border);
+      border-radius:18px;
+      text-decoration:none;color:var(--text);
+      display:block;overflow:hidden;
+      opacity:0;transform:translateY(24px);
+      transition:opacity .5s ease, transform .5s ease, border-color .2s, box-shadow .2s;
+    }
+    .card.visible{opacity:1;transform:translateY(0);}
+    .card:hover{
+      border-color:var(--purple-light);
+      box-shadow:0 10px 35px rgba(45,31,61,.12);
+      transform:translateY(-4px);
+    }
+
+    .card-img{
+      width:100%;height:150px;object-fit:cover;
+      border-bottom:1px solid var(--border);
+    }
+
+    .card-body{padding:1.1rem;}
+
+    .card-top{
+      display:flex;justify-content:space-between;
+      align-items:center;margin-bottom:.6rem;
+    }
+
+    .card-kode{
+      font-size:.7rem;font-weight:700;
+      color:var(--purple-light);font-family:monospace;
+      letter-spacing:.05em;
+      background:rgba(45,31,61,.06);
+      padding:.2rem .5rem;border-radius:5px;
+    }
+
+    .chip{
+      font-size:.68rem;font-weight:700;
+      padding:.22rem .65rem;border-radius:100px;
+    }
+    .chip-aktif{background:#fff3e0;color:#e65100;}
+    .chip-selesai{background:#e8f5e9;color:#1b5e20;}
+
+    .card-nama{
+      font-size:1rem;font-weight:800;
+      color:var(--purple);margin-bottom:.5rem;
+      line-height:1.3;
+    }
+
+    .card-divider{
+      height:1px;background:var(--border);margin:.6rem 0;
+    }
+
+    .card-meta{
+      display:flex;flex-direction:column;gap:.3rem;
+      font-size:.78rem;color:var(--muted);
+    }
+    .card-meta span{display:flex;align-items:center;gap:.35rem;}
+
+    /* Empty */
+    .empty{
+      text-align:center;padding:3rem 1rem;
+      background:var(--surface);border:2px dashed var(--border);
+      border-radius:18px;
+    }
+    .empty-icon{font-size:2.5rem;margin-bottom:.6rem;opacity:.4;}
+    .empty h3{font-size:.95rem;color:var(--muted);font-weight:700;}
+    .empty p{font-size:.82rem;color:var(--muted);margin-top:.3rem;}
+
+    /* ── CARA KERJA ── */
+    .how{
+      background:var(--purple);
+      padding:3.5rem 2rem;margin-top:3rem;
+      position:relative;overflow:hidden;
+    }
+
+    .how::before{
+      content:'';position:absolute;
+      top:-100px;right:-100px;
+      width:400px;height:400px;border-radius:50%;
+      background:radial-gradient(circle,rgba(168,224,106,.08),transparent 70%);
+      pointer-events:none;
+    }
+
+    .how-inner{max-width:1000px;margin:0 auto;}
+
+    .how-header{text-align:center;margin-bottom:2.5rem;}
+    .how-header h2{font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:.4rem;}
+    .how-header p{color:rgba(255,255,255,.5);font-size:.9rem;}
+
+    .how-steps{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+      gap:1rem;
+    }
+
+    .how-step{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:16px;padding:1.5rem 1.25rem;
+      opacity:0;transform:translateY(20px);
+      transition:opacity .5s ease,transform .5s ease,background .2s;
+    }
+    .how-step.visible{opacity:1;transform:translateY(0);}
+    .how-step:hover{background:rgba(255,255,255,.1);transform:translateY(-3px);}
+
+    .how-num{
+      width:38px;height:38px;border-radius:10px;
+      background:var(--accent);color:var(--purple);
+      font-weight:800;font-size:.95rem;
+      display:flex;align-items:center;justify-content:center;
+      margin-bottom:.9rem;
+    }
+
+    .how-step h4{color:#fff;font-size:.92rem;font-weight:700;margin-bottom:.35rem;}
+    .how-step p{color:rgba(255,255,255,.5);font-size:.8rem;line-height:1.65;}
+
+    /* ── FOOTER ── */
+    footer{
+      background:var(--purple);
+      text-align:center;padding:1.5rem 2rem;
+      color:rgba(255,255,255,.35);font-size:.8rem;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
+    footer span{color:var(--accent);}
+
+    /* ── ANIMASI ── */
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(28px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    @keyframes slideLeft{
+      from{opacity:0;transform:translateX(-16px);}
+      to{opacity:1;transform:translateX(0);}
+    }
+    @keyframes float{
+      0%,100%{transform:translateY(0);}
+      50%{transform:translateY(-6px);}
+    }
+    @keyframes blink{
+      0%,100%{opacity:1;}50%{opacity:0;}
+    }
+
+    .stats{animation:fadeUp .7s .4s ease both;}
+    .search-card{animation:fadeUp .7s .5s ease both;}
+    .lacak-card{animation:fadeUp .7s .6s ease both;}
+    .hero-tag{animation:fadeUp .6s ease both,float 3s 1s ease-in-out infinite;}
+
+    .typing-cursor{
+      display:inline-block;width:3px;height:.9em;
+      background:var(--accent);margin-left:2px;
+      vertical-align:middle;
+      animation:blink .7s ease-in-out infinite;
+    }
+    /* ── GATOR ANIMATION ── */
+    @keyframes gatorFloat{
+      0%,100%{transform:translateY(0) rotate(-2deg);}
+      50%{transform:translateY(-18px) rotate(2deg);}
+    }
+
+    @keyframes gatorMagnify{
+      0%,100%{transform:rotate(-10deg);}
+      50%{transform:rotate(10deg);}
+    }
+
+    @keyframes gatorShadow{
+      0%,100%{transform:scaleX(1);opacity:.3;}
+      50%{transform:scaleX(.7);opacity:.15;}
+    }
+
+    @keyframes speechBubble{
+      0%,100%{opacity:1;transform:scale(1);}
+      50%{opacity:.8;transform:scale(.97);}
+    }
+
+    .gator-wrap{
+      display:flex;flex-direction:column;align-items:center;
+      justify-content:center;position:relative;
+      animation:fadeUp .7s .2s ease both;
+    }
+
+    .speech-bubble{
+      background:#fff;
+      border:2px solid var(--accent);
+      border-radius:16px;
+      padding:.6rem 1rem;
+      font-size:.82rem;font-weight:700;
+      color:var(--purple);
+      margin-bottom:.75rem;
+      position:relative;
+      animation:speechBubble 2.5s ease-in-out infinite;
+      text-align:center;
+      box-shadow:0 4px 15px rgba(0,0,0,.1);
+    }
+
+    .speech-bubble::after{
+      content:'';
+      position:absolute;
+      bottom:-12px;left:50%;transform:translateX(-50%);
+      border:6px solid transparent;
+      border-top-color:var(--accent);
+    }
+
+    .gator-img{
+      width:500px;height:auto;
+      animation:gatorFloat 3s ease-in-out infinite;
+      filter:drop-shadow(0 20px 15px rgba(0,0,0,.2));
+      cursor:pointer;
+      transition:transform .2s;
+    }
+
+    .gator-img:hover{
+      animation:none;
+      transform:scale(1.08) rotate(-5deg);
+    }
+
+    .gator-shadow{
+      width:120px;height:16px;
+      background:rgba(0,0,0,.2);
+      border-radius:50%;
+      margin-top:-10px;
+      animation:gatorShadow 3s ease-in-out infinite;
+      filter:blur(4px);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">
+    <img src="/static/logo-upn.png" alt="UPN" onerror="this.style.display='none'"/>
+    <span class="logo-text">LostUPNJatim</span>
+  </a>
+  <nav>
+    <a href="/">Beranda</a>
+    <a href="/lapor/hilang" class="btn-nav-hilang">+ Lapor Hilang</a>
+    <a href="/lapor/ketemu" class="btn-nav-ketemu">Lapor Ketemu</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">🎓 UPN Veteran Jawa Timur</div>
+      <h1>Kehilangan Barang<br>di <span class="accent" id="typing-text"></span><span class="typing-cursor"></span></h1>
+      <p class="hero-desc">Platform pelaporan barang hilang dan ketemu di lingkungan UPN Veteran Jawa Timur. Lapor sekarang dan temukan barangmu!</p>
+      <div class="hero-btns">
+        <a href="/lapor/hilang" class="btn-primary"> Saya Kehilangan</a>
+        <a href="/lapor/ketemu" class="btn-ghost"> Saya Menemukan</a>
+      </div>
+    </div>
+
+    <!-- Investi-gator mascot -->
+    <div class="hero-visual">
+      <div class="gator-wrap">
+        <div class="speech-bubble" id="gator-speech">
+          🔍 Yuk lapor barang hilangmu!
+        </div>
+        <img src="/static/gator.png" alt="Investi-gator" class="gator-img"
+             onclick="changeSpeech()" title="Klik saya!"/>
+        <div class="gator-shadow"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-wrap">
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num red" data-target="{{ laporan_hilang|length }}">{{ laporan_hilang|length }}</div>
+      <div class="stat-label">Barang Hilang</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num green" data-target="{{ total_selesai }}">{{ total_selesai }}</div>
+      <div class="stat-label">Berhasil Ditemukan</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Tersedia</div>
+    </div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="search-section">
+  <div class="search-card">
+    <div class="search-label">🔍 Cari Laporan</div>
+    <form method="GET" action="/">
+      <div class="search-row">
+        <input type="text" name="search" class="search-input"
+               placeholder="Nama barang..." value="{{ search }}"/>
+        <select name="lokasi" class="search-input">
+          <option value="">📍 Semua Lokasi</option>
+          {% for lok in lokasi_list %}
+          <option value="{{ lok }}" {% if filter_lokasi == lok %}selected{% endif %}>{{ lok }}</option>
+          {% endfor %}
+        </select>
+        <select name="kategori" class="search-input">
+          <option value="">🏷️ Semua Kategori</option>
+          {% for kat in kategori_list %}
+          <option value="{{ kat }}" {% if filter_kategori == kat %}selected{% endif %}>{{ kat }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit" class="btn-search">Cari</button>
+        <a href="/" class="btn-reset">Reset</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Lacak -->
+<div class="lacak-section">
+  <div class="lacak-card">
+    <div class="lacak-icon">🔍</div>
+    <div>
+      <div class="lacak-info">
+        <h3>Lacak Laporan</h3>
+        <p>Masukkan kode laporan untuk melihat status barangmu</p>
+      </div>
+      <form method="GET" action="/lacak" class="lacak-form">
+        <input type="text" name="kode" class="lacak-input"
+               placeholder="Contoh: HLG-123456 atau KTM-789012" required/>
+        <button type="submit" class="btn-lacak">🔍 Lacak</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Barang Hilang -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">
+       Barang Hilang
+      <span class="section-badge badge-hilang">{{ laporan_hilang|length }}</span>
+    </div>
+    <a href="/lapor/hilang" class="btn-lapor-hilang">+ Lapor</a>
+  </div>
+
+  {% if laporan_hilang %}
+  <div class="cards-grid">
+    {% for lap in laporan_hilang %}
+    <a href="/laporan/{{ lap.kode }}" class="card">
+      {% if lap.foto %}
+      <img src="/static/uploads/{{ lap.foto }}" class="card-img" alt="{{ lap.nama_barang }}"/>
+      {% endif %}
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-kode">{{ lap.kode }}</span>
+          <span class="chip chip-{{ lap.status }}">{{ '✅ Ditemukan' if lap.status == 'selesai' else '🔍 Dicari' }}</span>
+        </div>
+        <div class="card-nama">{{ lap.nama_barang }}</div>
+        <div class="card-divider"></div>
+        <div class="card-meta">
+          <span>🏷️ {{ lap.kategori }}</span>
+          <span>📍 {{ lap.lokasi }}</span>
+          <span>🕐 {{ format_waktu(lap.created_at) }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="empty-icon">🎉</div>
+    <h3>Tidak ada laporan barang hilang</h3>
+    <p>Semua barang aman! Atau coba ubah filter pencarian.</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Barang Ketemu -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-title">
+       Barang Ketemu
+      <span class="section-badge badge-ketemu">{{ laporan_ketemu|length }}</span>
+    </div>
+    <a href="/lapor/ketemu" class="btn-lapor-ketemu">+ Lapor</a>
+  </div>
+
+  {% if laporan_ketemu %}
+  <div class="cards-grid">
+    {% for lap in laporan_ketemu %}
+    <a href="/laporan/{{ lap.kode }}" class="card">
+      {% if lap.foto %}
+      <img src="/static/uploads/{{ lap.foto }}" class="card-img" alt="{{ lap.nama_barang }}"/>
+      {% endif %}
+      <div class="card-body">
+        <div class="card-top">
+          <span class="card-kode">{{ lap.kode }}</span>
+          <span class="chip chip-{{ lap.status }}">{{ '✅ Selesai' if lap.status == 'selesai' else '📦 Menunggu' }}</span>
+        </div>
+        <div class="card-nama">{{ lap.nama_barang }}</div>
+        <div class="card-divider"></div>
+        <div class="card-meta">
+          <span>🏷️ {{ lap.kategori }}</span>
+          <span>📍 {{ lap.lokasi }}</span>
+          <span>🕐 {{ format_waktu(lap.created_at) }}</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="empty-icon">📭</div>
+    <h3>Belum ada laporan barang ketemu</h3>
+    <p>Jika kamu menemukan barang, segera lapor ya!</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Cara Kerja -->
+<div class="how">
+  <div class="how-inner">
+    <div class="how-header">
+      <h2>Cara Kerja LostUPNJatim</h2>
+      <p>Simpel, cepat, dan membantu sesama mahasiswa UPN</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step">
+        <div class="how-num">1</div>
+        <h4>Lapor Barang</h4>
+        <p>Isi form laporan barang hilang atau ketemu dengan detail yang jelas dan foto jika ada</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">2</div>
+        <h4>Dapat Kode</h4>
+        <p>Sistem generate kode unik otomatis untuk melacak status laporanmu kapan saja</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">3</div>
+        <h4>Hubungi via WA</h4>
+        <p>Pemilik dan penemu saling hubungi via WhatsApp yang tercantum di laporan</p>
+      </div>
+      <div class="how-step">
+        <div class="how-num">4</div>
+        <h4>Tandai Selesai</h4>
+        <p>Setelah barang kembali ke pemilik, tandai laporan sebagai selesai</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 <span>LostUPNJatim</span> — Platform Barang Hilang UPN Veteran Jawa Timur
+</footer>
+
+<script>
+// ── TYPING EFFECT ──
+const words = ['Kampus?','UPN?','Labkom?','Kantin?','Parkiran?','Perpustakaan?'];
+let wi=0,ci=0,del=false;
+const el=document.getElementById('typing-text');
+function type(){
+  const w=words[wi];
+  if(!del){el.textContent=w.slice(0,++ci);if(ci===w.length){del=true;setTimeout(type,1800);return;}}
+  else{el.textContent=w.slice(0,--ci);if(ci===0){del=false;wi=(wi+1)%words.length;}}
+  setTimeout(type,del?55:95);
+}
+type();
+
+// ── SCROLL FADE IN ──
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*80);obs.unobserve(e.target);}
+  });
+},{threshold:0.1});
+document.querySelectorAll('.card,.how-step').forEach(el=>obs.observe(el));
+
+// ── GATOR SPEECH BUBBLE ──
+const speeches = [
+  "🔍 Yuk lapor barang hilangmu!",
+  "🐊 Aku Investi-gator siap membantu!",
+  "📋 Cek laporan terbaru di bawah!",
+  "🎉 Barang ketemu? Lapor sekarang!",
+  "🔍 Tinggalkan jejakmu, aku yang cari!",
+  "😭 Kehilangan? Jangan panik, lapor!",
+];
+let si = 0;
+function changeSpeech() {
+  si = (si + 1) % speeches.length;
+  document.getElementById('gator-speech').textContent = speeches[si];
+}
+setInterval(changeSpeech, 3000);
+function counter(el,target){
+  if(isNaN(target))return;
+  let n=0;const s=Math.ceil(target/25);
+  const t=setInterval(()=>{n=Math.min(n+s,target);el.textContent=n;if(n>=target)clearInterval(t);},40);
+}
+document.querySelectorAll('.stat-num[data-target]').forEach(el=>{
+  const v=parseInt(el.dataset.target);
+  if(!isNaN(v)){el.textContent='0';setTimeout(()=>counter(el,v),700);}
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detail Laporan — LostUPNJatim</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#D3FCD5;--surface:#ffffff;--border:#c2ecc4;
+      --text:#1a0d2e;--muted:#6B6B9E;--accent:#A8E06A;
+      --purple:#2D1F3D;--purple-mid:#6B6B9E;--purple-light:#9B9EC8;
+    }
+    body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;}
+
+    header{background:var(--purple);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(45,31,61,.3);}
+    .logo{font-size:1.3rem;font-weight:800;color:#fff;display:flex;align-items:center;gap:.5rem;text-decoration:none;}
+    .logo-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block;}
+    nav a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.85rem;font-weight:600;padding:.4rem .9rem;border-radius:8px;transition:all .2s;}
+    nav a:hover{color:#fff;background:rgba(255,255,255,.1);}
+
+    .page-wrap{max-width:620px;margin:0 auto;padding:2.5rem 1.5rem;}
+
+    .back-btn{display:inline-flex;align-items:center;gap:.4rem;color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:600;margin-bottom:1.5rem;transition:color .2s;}
+    .back-btn:hover{color:var(--purple);}
+
+    /* Status banner */
+    .status-banner{
+      border-radius:16px;padding:1.25rem 1.5rem;
+      margin-bottom:1.5rem;
+      display:flex;align-items:center;gap:1rem;
+    }
+    .status-banner.hilang{background:#fde8e8;border:1.5px solid #f5c6c6;}
+    .status-banner.ketemu{background:#e8f5e9;border:1.5px solid #c8e6c9;}
+    .status-banner.selesai{background:#e8eaf6;border:1.5px solid #c5cae9;}
+
+    .status-icon{font-size:2rem;}
+    .status-info h2{font-size:1.1rem;font-weight:800;margin-bottom:.2rem;}
+    .status-info p{font-size:.82rem;opacity:.7;}
+
+    /* Card */
+    .card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:1.75rem;box-shadow:0 4px 20px rgba(45,31,61,.06);margin-bottom:1rem;}
+
+    .kode-badge{
+      display:inline-block;
+      background:var(--bg);border:1.5px solid var(--border);
+      border-radius:8px;padding:.4rem .9rem;
+      font-family:monospace;font-size:.88rem;font-weight:700;
+      color:var(--purple);margin-bottom:1.25rem;
+      letter-spacing:.05em;
+    }
+
+    .detail-nama{font-size:1.5rem;font-weight:800;color:var(--purple);margin-bottom:1rem;}
+
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;}
+    @media(max-width:440px){.info-grid{grid-template-columns:1fr;}}
+
+    .info-item{background:var(--bg);border-radius:10px;padding:.75rem 1rem;}
+    .info-item-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.2rem;}
+    .info-item-value{font-size:.9rem;font-weight:600;color:var(--text);}
+
+    .deskripsi-box{
+      background:var(--bg);border-radius:10px;padding:1rem;
+      font-size:.88rem;color:var(--text);line-height:1.7;
+    }
+
+    /* Kontak */
+    .kontak-card{
+      background:var(--purple);border-radius:16px;padding:1.5rem;
+      display:flex;justify-content:space-between;align-items:center;
+      gap:1rem;flex-wrap:wrap;
+    }
+
+    .kontak-info h3{font-size:1rem;font-weight:700;color:#fff;margin-bottom:.2rem;}
+    .kontak-info p{font-size:.85rem;color:rgba(255,255,255,.6);}
+    .kontak-info .wa-num{color:var(--accent);font-weight:700;font-size:.95rem;}
+
+    .btn-wa{
+      display:inline-flex;align-items:center;gap:.5rem;
+      background:var(--accent);color:var(--purple);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.9rem;font-weight:700;
+      padding:.7rem 1.4rem;border-radius:10px;
+      text-decoration:none;white-space:nowrap;
+      transition:all .2s;
+    }
+    .btn-wa:hover{background:#bfed80;}
+
+    /* Selesai button */
+    .btn-selesai{
+      width:100%;
+      background:var(--bg);color:var(--purple);
+      border:1.5px solid var(--border);
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.9rem;font-weight:700;
+      padding:.8rem;border-radius:12px;cursor:pointer;
+      transition:all .2s;margin-top:1rem;
+    }
+    .btn-selesai:hover{background:var(--accent);border-color:var(--accent);}
+
+    .selesai-badge{
+      text-align:center;
+      background:#e8f5e9;border:1.5px solid #c8e6c9;
+      border-radius:12px;padding:1rem;
+      color:#1b5e20;font-weight:700;font-size:.9rem;
+      margin-top:1rem;
+    }
+
+    /* Not found */
+    .not-found{text-align:center;padding:4rem 2rem;}
+    .not-found-icon{font-size:4rem;margin-bottom:1rem;}
+    .not-found h2{font-size:1.3rem;color:var(--muted);font-weight:700;}
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo"><div class="logo-dot"></div>LostUPNJatim</a>
+  <nav><a href="/">Beranda</a></nav>
+</header>
+
+<div class="page-wrap">
+  <a href="/" class="back-btn">← Kembali ke Beranda</a>
+
+  {% if laporan %}
+
+  <!-- Status Banner -->
+  <div class="status-banner {{ 'selesai' if laporan.status == 'selesai' else laporan.jenis }}">
+    <div class="status-icon">
+      {{ '✅' if laporan.status == 'selesai' else ('😭' if laporan.jenis == 'hilang' else '🎉') }}
+    </div>
+    <div class="status-info">
+      <h2>
+        {% if laporan.status == 'selesai' %}Laporan Selesai
+        {% elif laporan.jenis == 'hilang' %}Barang Hilang
+        {% else %}Barang Ketemu{% endif %}
+      </h2>
+      <p>
+        {% if laporan.status == 'selesai' %}Barang sudah kembali ke pemiliknya
+        {% elif laporan.jenis == 'hilang' %}Sedang dicari pemiliknya
+        {% else %}Menunggu pemilik menghubungi{% endif %}
+      </p>
+    </div>
+  </div>
+
+  <!-- Detail Card -->
+  <div class="card">
+    <div class="kode-badge">📋 {{ laporan.kode }}</div>
+    <div class="detail-nama">{{ laporan.nama_barang }}</div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-item-label">Kategori</div>
+        <div class="info-item-value">🏷️ {{ laporan.kategori }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">{{ 'Lokasi Terakhir' if laporan.jenis == 'hilang' else 'Lokasi Ditemukan' }}</div>
+        <div class="info-item-value">📍 {{ laporan.lokasi }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">Dilaporkan Oleh</div>
+        <div class="info-item-value">👤 {{ laporan.nama_pelapor }}</div>
+      </div>
+      <div class="info-item">
+        <div class="info-item-label">Waktu Laporan</div>
+        <div class="info-item-value">🕐 {{ format_waktu(laporan.created_at) }}</div>
+      </div>
+    </div>
+
+    {% if laporan.foto %}
+    <div style="margin-top:.75rem;">
+      <div class="info-item-label" style="margin-bottom:.5rem;">Foto Barang</div>
+      <img src="/static/uploads/{{ laporan.foto }}"
+           style="width:100%;max-height:280px;object-fit:cover;border-radius:12px;border:1.5px solid var(--border);"/>
+    </div>
+    {% endif %}
+
+    {% if laporan.deskripsi %}
+    <div style="margin-top:.75rem;">
+      <div class="info-item-label" style="margin-bottom:.5rem;">Deskripsi</div>
+      <div class="deskripsi-box">{{ laporan.deskripsi }}</div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Kontak -->
+  {% if laporan.status == 'aktif' %}
+  <div class="kontak-card">
+    <div class="kontak-info">
+      <h3>Hubungi Pelapor</h3>
+      <p>Nama: <strong style="color:#fff;">{{ laporan.nama_pelapor }}</strong></p>
+      <p class="wa-num">📱 {{ laporan.kontak_wa }}</p>
+    </div>
+    <a href="https://wa.me/62{{ laporan.kontak_wa.lstrip('0') }}" target="_blank" class="btn-wa">
+      💬 Chat WhatsApp
+    </a>
+  </div>
+
+  <!-- Tandai Selesai -->
+  <form method="POST" action="/laporan/{{ laporan.kode }}/selesai">
+    <button type="submit" class="btn-selesai">
+      ✅ Tandai Barang Sudah {{ 'Ditemukan' if laporan.jenis == 'hilang' else 'Dikembalikan' }}
+    </button>
+  </form>
+
+  <!-- Hapus Laporan -->
+  <form method="POST" action="/laporan/{{ laporan.kode }}/hapus"
+        onsubmit="return confirm('Yakin ingin menghapus laporan ini? Data tidak bisa dikembalikan!')">
+    <button type="submit" style="
+      width:100%;margin-top:.6rem;
+      background:transparent;color:#e05555;
+      border:1.5px solid #f5c6c6;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.85rem;font-weight:600;
+      padding:.7rem;border-radius:12px;cursor:pointer;
+      transition:all .2s;
+    " onmouseover="this.style.background='#fde8e8'" onmouseout="this.style.background='transparent'">
+      🗑️ Hapus Laporan
+    </button>
+  </form>
+
+  {% else %}
+  <div class="selesai-badge">
+    ✅ Barang ini sudah {{ 'ditemukan' if laporan.jenis == 'hilang' else 'dikembalikan' }} ke pemiliknya!
+  </div>
+
+  <!-- Hapus Laporan -->
+  <form method="POST" action="/laporan/{{ laporan.kode }}/hapus"
+        onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
+    <button type="submit" style="
+      width:100%;margin-top:.75rem;
+      background:transparent;color:#e05555;
+      border:1.5px solid #f5c6c6;
+      font-family:'Plus Jakarta Sans',sans-serif;
+      font-size:.85rem;font-weight:600;
+      padding:.7rem;border-radius:12px;cursor:pointer;
+      transition:all .2s;
+    " onmouseover="this.style.background='#fde8e8'" onmouseout="this.style.background='transparent'">
+      🗑️ Hapus Laporan
+    </button>
+  </form>
+  {% endif %}
+
+  {% else %}
+  <div class="not-found">
+    <div class="not-found-icon">🔍</div>
+    <h2>Laporan tidak ditemukan</h2>
+    <p style="color:var(--muted);margin-top:.5rem;">Kode <strong>{{ kode }}</strong> tidak ada di database.</p>
+    <a href="/" style="display:inline-block;margin-top:1rem;color:var(--purple);font-weight:700;">← Kembali</a>
+  </div>
+  {% endif %}
+
+</div>
+</body>
+</html>
