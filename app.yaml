@@ -1,0 +1,8 @@
+runtime: python312
+entrypoint: gunicorn -b :$PORT main:app
+
+env_variables:
+  DB_HOST: "35.188.118.115"
+  DB_USER: "root"
+  DB_PASSWORD: "pina291205"
+  DB_NAME: "topup_db"
